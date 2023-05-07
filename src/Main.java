@@ -13,20 +13,28 @@ public class Main {
 
         printBoard(board);
 
-        while (true) {
-            playerTurn(board, scanner);
-            if (isGameFinished(board)){
-                break;
-            }
-            printBoard(board);
+        try {
+            while (true) {
 
-            computerTurn(board);
-            if (isGameFinished(board)){
-                break;
+                playerTurn(board, scanner);
+                if (isGameFinished(board)) {
+                    break;
+                }
+                printBoard(board);
+
+                computerTurn(board);
+                if (isGameFinished(board)) {
+                    break;
+                }
+                printBoard(board);
+
             }
-            printBoard(board);
+            scanner.close();
         }
-        scanner.close();
+        catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
     }
 
 
@@ -113,11 +121,15 @@ public class Main {
         }
     }
 
-    private static void playerTurn(char[][] board, Scanner scanner) {
+    private static void playerTurn(char[][] board, Scanner scanner) throws Exception{
         String userInput;
         while (true) {
             System.out.println("Enter Your Move!!");
             userInput = scanner.nextLine();
+
+            if(checkNumber(userInput)){
+                throw new Exception("Pls enter number between(1-9)");
+            }
             if (isValidMove(board, userInput)){
                 break;
             } else {
@@ -183,6 +195,17 @@ public class Main {
         System.out.print((board[2][1]));
         System.out.print("|");
         System.out.println((board[2][2]));
+    }
+    private static boolean checkNumber(String num) {
+        String[] number = {"1","2","3","4","5","6","7","8","9"};
+
+        boolean checkNum = true;
+
+        for (int x = 0; x <= number.length-1; x++){
+            if(num.equals(number[x]))
+                checkNum = false;
+        }
+        return checkNum;
     }
 
 }
